@@ -1,0 +1,798 @@
+/* 
+    Document   : openskos
+    Created on : Jun 21, 2013, 2:29:00 PM
+    Author     : hennieb, robz, janpieterk
+    Description: 
+        Stylesheet created by hennieb for developement and testing Alfalab.
+        Modified by robz for implementation of the CLARIN openskos site
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "museo-sans",arial,helvetica,sans-serif;
+}
+
+p, ul li{
+    color:#00406f;
+    font-weight: 500;
+    
+}
+
+b {
+    font-size: 110%;
+}
+
+em {
+    color: red;
+}
+h1, h2, h3{
+    color:#00406f;
+}
+
+#maincontainer {
+    width: 1280px; /*Width of main container*/
+    margin: 8px; /*Container on left side of page*/
+}
+
+#tableheader-openskos{
+    vertical-align: top;  
+    color: #00406f; 
+    font-weight: 700
+}
+
+#foundItems {
+    vertical-align: top;  
+    color: #00406f; 
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+a {
+   outline: 0;
+}
+
+a:link, a:visited {
+    color: #00406f;
+   font-weight: 700;
+   text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#contentheader {
+    //position: relative;
+    display: block;
+ /*   min-height: 15px; */
+    padding: 0 0 0 15px;
+/*    margin: 0 0 20px 14px; */
+    border: 0;
+}
+
+.contentwrapper-openskos {
+    font-size: 14px;
+    width: 100%;
+    heigth:18px;
+}
+
+.querycolumn-openskos {
+   margin-top: 20px;
+   margin-left:2%;
+   float: left;
+   width: 28%;
+}
+
+.resultcolumn-openskos {
+    float: left;
+    width: 66%;
+    margin-top: 20px;
+    padding-left:4%;
+}
+
+
+.innertube {
+    margin: 0;
+}
+
+
+#menubar-component {
+    display: block;
+    outline: medium none;
+    height: auto;
+    color: #004F6F;
+    background-color: #B2CAD4;
+    font-size: 24px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border: 1px solid transparent;
+    text-align: center;
+}
+
+#menubar-component ul {
+    display: table;
+    margin: 0 auto;
+    left: 100%;
+    padding: 2px 2px 2px 0;
+    right: 0;
+    border: medium none;
+    text-align: center;
+}
+
+#menubar-component ul li {
+    list-style: outside none none;
+    display: inline;
+    line-height: 1.3 !important;
+    box-sizing: content-box;
+    padding: 2px 10px;
+}
+
+
+#menubar-component ul li a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+/*
+table#detailpagina {
+    margin-top: 2px;
+}
+table#detailpagina tr td:first-child {
+    vertical-align: top;
+}
+table#detailpagina td + td {
+    padding-left: 30px;
+}
+*/
+.hidden {
+    display: none;
+}
+
+
+
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+   nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+
+#message {
+    display: none;
+}
+
+/* http://www.red-team-design.com/cool-notification-messages-with-css3-jquery */
+.message {
+	position:absolute;
+	left:400px;
+	top:10px;
+	z-index:100;
+    margin: 10px 0 10px 0;
+    background-size: 40px 40px;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .4);
+    width: 400px;
+    height:auto;
+    border: 1px solid;
+    color: #fff;
+    padding:15px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
+    
+}
+
+.error {
+    background-color: #c34d5b;
+    border-color: #000;
+}
+
+.success {
+    background-color: #6c8e9c;
+    border-color: #000;
+}
+
+#error-message {
+    background-color: #c34d5b;
+    border-color: #000; 
+}
+
+#xp-warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    width: 700px;
+}
+
+#xp-close {
+    border: 2px solid #c2c2c2;
+    position: relative;
+    padding: 1px 5px;
+    top: -25px;
+    background-color: #605F61;
+    border-radius: 20px;
+}
+
+#xp-close  a {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+
+/* Zeezeilen implementatie */
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+#refine-results-component-openskos {
+    padding: 0 0 0 0px;
+    float: left;
+}
+
+
+div#searchObjectSmall-openskos {
+    margin-top: 0px;
+    margin-bottom: 30px 
+}
+
+
+
+.backButton-openskos {
+    opacity: 1;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    height: 20px;
+    border: 0;
+    font-size: 12px;
+    cursor: pointer;
+    color: white;
+    background-color: #00406f;
+}
+
+/*
+#searchterm-openskos {
+    height: 25px;
+    border: 0;
+    width: 50%;
+    color: #666;
+    font-size: 14px;
+    margin-top: 10px;
+    border: 1px solid   #00406f;
+}
+*/
+
+#headerArea {
+    width: 100%;
+}
+
+
+ul#mainMenuList {
+    float: right;
+    margin: 0;
+    padding: 0px;
+    list-style: none;
+    font-weight: 700;
+    font-family: "museo-sans", arial, helvetica, sans-serif;
+    font-size: 14px;
+    color: #745178;
+    border: 0;
+}
+
+ul#mainMenuList li {
+    float: left;
+    margin: 0px;
+    padding: 0px;
+}
+
+ul#mainMenuList li a:link, ul#mainMenuList li a:visited {
+    display: block;
+    white-space: nowrap;
+    background-color: #745178;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 12px;
+    font-weight: normal;
+    font-size: 6px;
+}
+
+ul#mainMenuList li a:hover {
+    text-decoration: underline;
+}
+
+ul#mainMenuList li:first-child {
+    padding: 5px 20px 1px 0;
+}
+
+
+#logo {
+background-image: url('../images/logo.png');
+height:72px;
+}
+
+#clarin{
+background-image: url('../images/clarin.png');
+position:absolute;
+top:10px;
+left:36px;
+width:134px;
+height:100px;
+}
+
+
+
+/* ZEEZEILEN CHECKBOXES, zie http://webdesign.tutsplus.com/tutorials/quick-tip-easy-css3-checkboxes-and-radio-buttons--webdesign-8953 */
+/* werkt alleen als Smarty plugin html_checkboxes_openskos wordt gebruikt */
+/* div.openskos_checkboxes input[type="checkbox"] {
+    display:none;
+}
+div.openskos_checkboxes input[type="checkbox"] + label {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 253px;
+}
+div.openskos_checkboxes input[type="checkbox"]:checked + label {
+    background-color: rgb(178,202,212);
+    color:#000;
+    background-image:url('../images/vinkje.png');
+    background-repeat:no-repeat;
+    background-position: 236px;
+    background-size: contain;
+}*/
+/*
+div.openskos_checkboxes{
+margin-top: 10px;
+padding-bottom:5px;
+color:#00406f;
+font-weight:500;
+font-size: 12px;
+width:258px;
+border: 1px solid rgb(3,79,113);
+}
+
+div.openskos_checkboxes p, div.openskos_radio p{
+    padding-left: 5px;
+    margin-top: 1px;
+    margin-bottom:2px;
+    font-size: 18px;
+    font-weight:500;
+}
+
+div.openskos_radio{
+margin-top: 10px;
+padding-bottom:5px;
+color:#00406f;
+font-weight:500;
+font-size: 12px;
+width:258px;
+border: 1px solid rgb(3,79,113);
+}
+*/
+
+/* ZEEZEILEN CHECKBOXES, zie http://webdesign.tutsplus.com/tutorials/quick-tip-easy-css3-checkboxes-and-radio-buttons--webdesign-8953 */
+/* werkt alleen als Smarty plugin html_checkboxes_nederlab wordt gebruikt */
+div.nederlab-checkboxes input[type="checkbox"] {
+    display:none;
+}
+div.nederlab-checkboxes input[type="checkbox"] + label {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 253px;
+}
+div.nederlab-checkboxes input[type="checkbox"]:checked + label {
+    color:#000;
+    background: rgb(178, 202, 212) url('../images/vinkje.png') no-repeat 226px 2px;
+}
+
+div.relations-checkboxes input[type="checkbox"] {
+    display:none;
+}
+div.relations-checkboxes input[type="checkbox"] + label {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 253px;
+}
+div.relations-checkboxes input[type="checkbox"]:checked + label {
+    color:#fff;
+    background: url('../images/vinkje_wit.png') no-repeat 226px 2px;
+}
+
+div.nederlab-radio input[type="radio"] + label {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 253px;
+}
+div.nederlab-radio input[type="radio"]:checked + label {
+    color:#000;
+    background: rgb(178, 202, 212) url('../images/vinkje.png') no-repeat 226px 2px;
+}
+
+div.nederlab-checkboxes,  div.relations-checkboxes, div.nederlab-radio{
+color:#00406f;
+font-weight:500;
+font-size: 14px;
+width:258px;
+}
+
+div.nederlab-checkboxes p, div.relations-checkboxes p, div.nederlab-radio p {
+    padding-left: 5px;
+    margin-top: 1px;
+    margin-bottom:2px;
+    font-size: 16px;
+    font-weight:700;
+}
+
+div.nederlab-checkboxes,  div.relations-checkboxes,div.nederlab-radio{
+    border: 1px solid #034F71;
+}
+
+/*
+div.openskos_radio input[type="radio"] + label{
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 5px;
+    display: inline-block;
+    width: 253px;
+}
+
+div.openskos_radio input[type="radio"]:checked + label{
+    background-color: rgb(178,202,212);
+    color:#000;
+    background-image:url('../images/vinkje.png');
+    background-repeat:no-repeat;
+    background-size: contain;
+}
+*/
+
+div#facet-list {
+    padding-left: 5px;
+}
+
+
+ul#topmenu-items{
+ margin-top: 0;   
+}
+
+ul#topmenu-items li a:link{
+    font-size: 22px;
+    font-weight: 700;
+}
+
+div#resultOrganizer {
+    margin-bottom: 20px;
+    /*border-bottom: 1px solid black;*/
+    padding-bottom: 10px;
+}
+
+
+div#resultOrganizer-openskos {
+  border: 1px solid rgb(0,79,114);
+}
+
+div#resultnavigation-openskos {
+    width: 100%;
+    padding-left: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+div#load-openskos{
+   width: 100%;
+   padding-left: 8px;
+   padding-top: 5px;
+   padding-bottom: 5px; 
+}
+
+div.resultnavigation-openskos > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.pagination {
+    float: right;
+    line-height: 20px;
+}
+
+div.sort-openskos {
+    display: block;
+    float: left;
+    padding: 0.3em 0.5em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    min-width: 1em;
+    text-align: center;
+}
+
+div.sortorder-openskos {
+    display: inline;
+}
+
+div.sortorder-openskos a.inactive {
+    color: rgb(182,203,213);
+}
+
+#concept-list{
+    font-size: 14px;
+    width: 100%;
+}
+
+#concept-list a {
+  color: #00406f;
+}
+
+.concept-row-openskos{
+    vertical-align: top;
+}
+
+.concept-even-row-openskos{
+    vertical-align: top;
+    background-color: #dfe9ed;
+}
+
+.row-padding-openskos{
+    padding-top: 8px; 
+}
+
+#tableheader-openskos {
+    vertical-align: top;  
+    color: #00406f; 
+    font-weight: 700
+}
+
+.detail-field-openskos {
+    color: #00406f; 
+    font-weight: 700;
+}
+
+// used by jquery highlight plugin to identify types of field values wthin which hits are to be highlighted
+.detail-value-openskos-hl {
+    padding-left: 16px; 
+}
+
+.detail-value-openskos, .detail-value-openskos-hl {
+    padding-left: 16px; 
+}
+
+.detail-row-openskos-even {
+    vertical-align: top;
+    background-color: #dfe9ed;
+}
+
+.detail-row-openskos{
+    vertical-align: top;
+}
+
+.concept-details-result-openskos{
+    font-size: 14px;
+    width: 100%;
+}
+
+
+.highlight {
+    background-color: #B2CAD4;
+    font-weight: 700;
+}
+
+.ui-accordion-header-active{
+   background-image: url('../images/pijl_6c8e9c.png');
+   background-repeat: no-repeat;
+   background-position: 460px 16px; 
+}
+
+#concept-search-component{
+    width: 100%;
+}
+
+#accordion-button{
+    background-image: url('../images/pijl-down-trans.png');
+    background-repeat: no-repeat;
+    background-position: 554px 11px;
+    outline:0;
+}
+
+.concept-search-refine-button {
+    margin: 0;
+    height: 29px;
+}
+
+.concept-search-refine-button .refineBtn {
+    border: 0;
+    width: 100%;
+    // align: right;
+}
+
+
+
+.metadata-component > div {
+    margin-top: 10px;
+    font-size: small;
+}
+
+.form-table{
+    display:table;
+}
+
+.form-row {
+    display: table-row;
+    text-align: left;
+    font-size: small;
+    color: white;
+}
+
+.form-col1 {
+    display: table-cell;
+    /*  border: 1px solid #CCC; */
+    width: 180px;
+    font-weight: 700;
+    vertical-align: top;
+    font-family: "museo-sans", arial, helvetica, sans-serif;
+    color: white;
+    font-size: 14px;
+    text-align: right;
+    padding-top: 6px;
+}
+
+.form-col2 {
+    display: table-cell;
+    width: 900px;
+    padding: 5px;
+    vertical-align: bottom;
+    /*   border: 1px solid #CCC; */
+}
+
+.form-col3 {
+    display: table-cell;
+    width: 160px;
+    padding: 5px;
+    vertical-align: top;
+    /*   border: 1px solid #CCC; */
+}
+
+.form-col4 {
+    display: table-cell;
+    width: 260px;
+    padding: 5px;
+    vertical-align: top;
+    /*   border: 1px solid #CCC; */
+}
+
+.form-left{
+width:180px;
+}
+
+.extSearchSubmit {
+    color: #fff;
+    font-weight: 700;
+    background-color: #00406f;
+    border: 0;
+    padding: 2px 4px;
+    cursor: hand;
+    cursor: pointer;
+    border:1px solid #fff;
+}
+
+// RELATION
+
+#relation-graph {
+    border: 2px solid #6c8e9c;
+}
+
+
+.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+footer{
+    text-align: center;
+    font-weight: 700;
+    color: #004f6f;
+    font-size: 14px;
+}
+
+.facetListLabel{
+font-weight: bold;
+padding-left: 5px;
+}
+
+.facetListLabel:hover, label[for*="schemata_http"]:hover, label[for*="skoscollections_http"]:hover,
+label[for*="status_"], label[for*="tenants_http"], label[for*="sets_http"]{
+cursor:pointer;    
+}
+
+/*label[for*="schemata_http"], label[for*="skoscollections_http"], .schemata_br, .collections_br, #schemataListLessBtn, #collectionsListLessBtn {
+display: none !important;
+}
+
+#vis_schemata .schemata_br:nth-of-type(0), label[for*="schemata_http"]:nth-of-type(0),
+#vis_schemata .schemata_br:nth-of-type(1), label[for*="schemata_http"]:nth-of-type(1),
+#vis_schemata .schemata_br:nth-of-type(2), label[for*="schemata_http"]:nth-of-type(2),
+#vis_schemata .schemata_br:nth-of-type(3), label[for*="schemata_http"]:nth-of-type(3),
+#vis_schemata .schemata_br:nth-of-type(4), label[for*="schemata_http"]:nth-of-type(4),
+#vis_schemata .schemata_br:nth-of-type(5), label[for*="schemata_http"]:nth-of-type(5),
+#vis_schemata .schemata_br:nth-of-type(6), label[for*="schemata_http"]:nth-of-type(6),
+#vis_collections .collections_br:nth-of-type(0), label[for*="skoscollections_http"]:nth-of-type(0),
+#vis_collections .collections_br:nth-of-type(1), label[for*="skoscollections_http"]:nth-of-type(1),
+#vis_collections .collections_br:nth-of-type(2), label[for*="skoscollections_http"]:nth-of-type(2),
+#vis_collections .collections_br:nth-of-type(3), label[for*="skoscollections_http"]:nth-of-type(3),
+#vis_collections .collections_br:nth-of-type(4), label[for*="skoscollections_http"]:nth-of-type(4),
+#vis_collections .collections_br:nth-of-type(5), label[for*="skoscollections_http"]:nth-of-type(5),
+#vis_collections .collections_br:nth-of-type(6), label[for*="skoscollections_http"]:nth-of-type(6),
+.disp_important
+{
+display: block !important;
+}
+*/
+
+.show_facet
+{
+display: block !important;
+}
+
+.hide_facet{
+display: none !important;
+}
+
+////
+/*
+.gnode text {
+  font: 10px sans-serif;
+}
+
+.node {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+
+.link {
+    fill: none;
+}
+.broader {
+  fill: none;
+  stroke: red;
+  stroke-width:3px
+}
+.narrower {
+  fill: none;
+  stroke: green;
+  stroke-width:3px
+}
+.exactMatch {
+  fill: none;
+  stroke: blue;
+  stroke-width:3px
+}
+
+*/

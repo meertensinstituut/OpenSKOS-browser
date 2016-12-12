@@ -1,0 +1,20 @@
+.pagination a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #004F6F;
+    font-weight: 100;
+}
+
+.pagination a, .pagination span {
+    display: block;
+    float: left;
+    padding: 0.3em 0.5em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    min-width: 1em;
+    text-align: center;
+}
+
+.pagination .current {
+    font-weight: 900;
+}
