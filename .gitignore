@@ -1,3 +1,5 @@
 /nbproject/private/
 /vendor/
 /smarty/templates_c/
+/sites/openskos/config/config.inc.php
+/sites/openskos/javascript/openskos/config.js
