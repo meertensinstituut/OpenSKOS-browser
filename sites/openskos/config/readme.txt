@@ -1,1 +1,0 @@
--- config.inc.dist.php must be renamed by the local OpenSkos admin to config.inc.php and the '??'-marked values must be set manually in that file.

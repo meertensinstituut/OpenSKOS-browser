@@ -20,15 +20,15 @@ define('OPENSKOS_DOCUMENTROOT', realpath(dirname(dirname(__FILE__))));
 define('OPENSKOS_SMARTY_ERROR_REPORTING', E_ALL & ~E_NOTICE);
 
 
-define('OPENSKOS_REMOTE_API',"{??,??,...,??}"); // each '??' must be replaced with a remote-backend uri string e.g. 'https://openskos.meertens.knaw.nl/ccr/api'
-define('OPENSKOS_REMOTE_MYSQL_HOSTS', '??'); // the '??' is a string
-define('OPENSKOS_REMOTE_MYSQL_USERNAMES', '??'); // the '??' is a string
-define('OPENSKOS_REMOTE_MYSQL_PASSWORDS', '??');//the '??' is a string
-define('OPENSKOS_REMOTE_MYSQL_DBNAMES', '??'); // /the '??' is a string
+define('OPENSKOS_REMOTE_API','{remotebackenduris}'); 
+define('OPENSKOS_REMOTE_MYSQL_HOSTS', 'mysqlhost'); 
+define('OPENSKOS_REMOTE_MYSQL_USERNAMES', 'mysqlusername'); 
+define('OPENSKOS_REMOTE_MYSQL_PASSWORDS', 'mysqlpassword');
+define('OPENSKOS_REMOTE_MYSQL_DBNAMES', 'mysqldbname'); 
 
 
 // defaults
-define('OPENSKOS_DEFAULT_BACKEND', '??'); // a string, must be the same as in <..>/sites/openskos/javascript/config.js
+define('OPENSKOS_DEFAULT_BACKEND', 'defaultbackendnuri'); // a string, must be the same as in <..>/sites/openskos/javascript/config.js
 define('OPENSKOS_DEFAULT_SEARCHMODE', 'or');
 define('OPENSKOS_DEFAULT_MATCHINGMODE', 'partofword');
 define('OPENSKOS_DEFAULT_SORT_FIELD', 'score');
