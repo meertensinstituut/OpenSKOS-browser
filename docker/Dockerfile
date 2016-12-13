@@ -4,13 +4,12 @@ RUN apt-get update &&\
 apt-get -y install php5-curl curl wget unzip
 
 # example of using argument 
-# docker build --build-arg BACKEND=ccr --build-arg REMOTE_HOST_IP=localhost -t ccr docker/openskos2picturae/
 
-ARG REMOTEBACKENDS=??<uri>--??<name>,??--??,??--??
-ARG DEFAULTBACKEND=??
-ARG FRONTENDHOST=??
-ARG FRONTENDPORT=??
-ARG FRONTENDPROTOCOL=??
+ARG REMOTEBACKENDS="http://somehost/ccr/public/api--ccr cloud,uri2-name2"
+ARG DEFAULTBACKEND=http://somehost/ccr/public/api
+ARG FRONTENDHOST=somehost
+ARG FRONTENDPORT=xx
+ARG FRONTENDPROTOCOL=yyy
 
 # install composer:
 RUN mkdir -p /tmp/composer &&\
