@@ -8,12 +8,12 @@ E.g. git-clone this repository to htdocs directory withing your /Applications/MA
 
 1.2  Make two customized configuration files: config.inc.php and config.js
 -------------------------------------------------------------------------------
-Copy config.inc.dist.php, which is located in <..>/sites/openskos/config, and place the copy into the same directory.
-Rename it to config.inc.php, exclude from commits (ignore) and edit. Editing is replacing questionmarks with your settings, 
+Copy config.inc.dist.php, which is located in <..>/docker, and place the copy into <..>/sites/openskos/config directory.
+Rename it to config.inc.php, exclude from commits (ignore) and edit. Editing is replacing dummy parameters with your settings, 
 such as remote uris and a password. When editing follow short instructions given in the comments in the rows to edit.
 
-Do the same with config.dist.js located in <..>/sites/openskos/javascript/openskos. It must be renamed to config.js and 
-placed in the same directory.
+Do the same with config.dist.js located in <..>/docker. It must be renamed to config.js and 
+placed in the directory <..>/sites/openskos/javascript/openskos.
 
 1.3 Run composer
 -------------------------------------------------------------------------------
