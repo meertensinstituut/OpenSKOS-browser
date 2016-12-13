@@ -20,12 +20,7 @@ define('OPENSKOS_DOCUMENTROOT', realpath(dirname(dirname(__FILE__))));
 define('OPENSKOS_SMARTY_ERROR_REPORTING', E_ALL & ~E_NOTICE);
 
 
-define('OPENSKOS_REMOTE_API','{remotebackenduris}'); 
-define('OPENSKOS_REMOTE_MYSQL_HOSTS', 'mysqlhost'); 
-define('OPENSKOS_REMOTE_MYSQL_USERNAMES', 'mysqlusername'); 
-define('OPENSKOS_REMOTE_MYSQL_PASSWORDS', 'mysqlpassword');
-define('OPENSKOS_REMOTE_MYSQL_DBNAMES', 'mysqldbname'); 
-
+define('OPENSKOS_REMOTE_API','remotebackenduris'); 
 
 // defaults
 define('OPENSKOS_DEFAULT_BACKEND', 'defaultbackendnuri'); // a string, must be the same as in <..>/sites/openskos/javascript/config.js

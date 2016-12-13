@@ -15,10 +15,10 @@
    [[else]]
    <tr class="concept-row-openskos">
    [[/if]]
-             <td> <a  href="{$siteroot}?action=conceptdetails&uuid=[[>subjectUuid]]&terms=[[>terms]]"> [[>subjectLabel]] </a></td>
+             <td> <a  href="{$siteroot}?action=conceptdetails&backend={$selected_remote_backend}&uuid=[[>subjectUuid]]"> [[>subjectLabel]] </a></td>
              <td> [[>subjectSchema]] </td>
              <td>  [[>property]]</td>
-             <td> <a  href="{$siteroot}?action=conceptdetails&uuid=[[>objectUuid]]&terms=[[>terms]]"> [[>objectLabel]] </a></td>
+             <td> <a  href="{$siteroot}?action=conceptdetails&backend={$selected_remote_backend}&uuid=[[>objectUuid]]"> [[>objectLabel]] </a></td>
              <td> [[>objectSchema]] </td>
             </tr>
   <tr>
