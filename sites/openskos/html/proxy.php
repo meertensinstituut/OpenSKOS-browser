@@ -26,8 +26,9 @@ define( 'CSAJAX_DEBUG', true );
 /**
  * A set of valid cross domain requests
  */
-$remote_backends=get_object_vars(Strings::getRemoteBackends());
-$valid_requests = array_keys($remote_backends);
+//$remote_backends=get_object_vars(Strings::getRemoteBackends());
+//$valid_requests = array_keys($remote_backends);
+$valid_requests = array_keys(Strings::getRemoteBackends());
 function validateRequest($urls, $request) {
     $l = count($urls);
     for ($i=0; $i<$l; $i++){
