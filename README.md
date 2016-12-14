@@ -49,26 +49,7 @@ Set up config.js and config.inc.php manually, as described in the instructions f
 
 Set "chmod 777 smarty" within the project's directory and "chmod 777 templates" "chmod 777 cache" within smarty.
 
-
-Use the following Docker file:
-[[
-FROM lamp:latest
-
-RUN apt-get update &&\
-apt-get -y install php5-curl curl wget unzip
-
-# example of using argument 
-
-
-RUN rm -rf /app &&\
-cd / &&\
-
-mkdir -p /app/OpenSKOS-browser
-
-# cleanup:
-RUN rm -rf /tmp/*
-CMD ["/run.sh"]
-]]
+Rename docker/Dockerfile_dev file into docker/Dockerfile and use it.
 
 Use script https://github.com/meertensinstituut/OpenSKOS-browser/blob/master/docker/osbrowser-start-dev.sh
 If necessary, you will need adjust settings "-p 80:80" with the pair of outside-port:inner-container-port of your instance.
