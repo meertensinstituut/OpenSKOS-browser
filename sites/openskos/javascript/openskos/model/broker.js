@@ -118,14 +118,14 @@
             var i;
             var prefixStr;
             //console.log(prefices);
-            if (matchingtype === "wholeword") {
+            //console.log(matchingtype);
+            if (matchingtype === "wholeword") { // search for token
               for (i = 0; i < prefices.length - 1; i++) {
                 if (prefices[i] === "") {
                   prefixStr = "";
                 } else {
                   prefixStr = "t_" + prefices[i] + ":";
                 }
-                ;
                 retval = retval + prefixStr + termStr + binopStr; // replace : with \:
                 //console.log(retval);
               }
@@ -134,9 +134,8 @@
               } else {
                 prefixStr = "t_" + prefices[prefices.length - 1] + ":";
               }
-              ;
               retval = retval + prefixStr + termStr + ")";
-            } else { // we do use *word* and do not use text versions for search fields
+            } else { 
               for (i = 0; i < prefices.length - 1; i++) {
                 var prefixStr;
                 if (prefices[i] === "") {

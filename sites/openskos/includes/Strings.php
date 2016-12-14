@@ -37,7 +37,7 @@ class Strings {
   }
 
   public static function getMatchingTypes() {
-    return array(OPENSKOS_DEFAULT_MATCHINGMODE => 'Part of word (default)', 'whole word' => 'Whole word');
+    return array(OPENSKOS_DEFAULT_MATCHINGMODE => 'Part of word (default)', 'wholeword' => 'Whole word');
   }
 
   public static function getRelationDemoModes() {
