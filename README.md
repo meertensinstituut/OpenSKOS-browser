@@ -35,13 +35,14 @@ Download https://github.com/meertensinstituut/OpenSKOS-browser/blob/master/docke
 2.2. Build  image with parameters
 ---------------------------------------------------------------------------------------------
 Example of the build command:
-docker build --build-arg DEFAULTBACKEND="http://someadress/clavas/public/api" --build-arg FRONTENDPORT=87 --build-arg FRONTENDHOST=somehost --build-arg FRONTENDPROTOCOL=http --build-arg REMOTEBACKENDS="http://someadress/ccr/public/api--ccr example,http://somehost/clavas/public/api-- clavas example" -t openskos2browser .
+docker build --build-arg DEFAULTBACKEND="http://someadress/clavas/public/api" --build-arg FRONTENDPORT=87 --build-arg FRONTENDHOST=somehost --build-arg FRONTENDPROTOCOL=http --build-arg REMOTEBACKENDS="http://someadress/ccr/public/api--ccr example,http://somehost/clavas/public/api-- clavas example" -t openskos2browser . 
+FRONTENDHOST must be the address of the machine where the browser deployed, used when sending requests.
 
 
 2.3. Start docker 
 ---------------------------------------------------------------------------------------------
 Use script https://github.com/meertensinstituut/OpenSKOS-browser/blob/master/docker/osbrowser-start.sh
-If necessary, you will need adjust settings "-p 80:80" with the pair of outside-port:inner-container-port of your instance.
+If necessary, you will need adjust settings "-p 80:80" with the pair of external-port:inner-container-port of your instance. The external port must be the same as FRONTENDPORT while image-building.
 
 2.4. Docker for development
 ---------------------------------------------------------------------------------------------
