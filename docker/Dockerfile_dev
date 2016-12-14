@@ -1,0 +1,18 @@
+FROM lamp:latest
+
+RUN apt-get update &&\
+apt-get -y install php5-curl curl wget unzip
+
+# example of using argument 
+
+
+RUN rm -rf /app &&\
+cd / &&\
+
+mkdir -p /app/OpenSKOS-browser
+
+# cleanup:
+RUN rm -rf /tmp/*
+CMD ["/run.sh"]
+
+
