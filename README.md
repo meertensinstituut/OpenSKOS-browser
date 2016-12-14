@@ -26,7 +26,6 @@ Make a new project from existing sources in your IDE by using the obtained (clon
 
 
 2. Run OpenSKOS browser within Docker
-
 ===============================================================================
 
 2.1. Download Dockerfile 
