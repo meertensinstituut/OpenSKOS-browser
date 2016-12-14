@@ -49,7 +49,7 @@ Set up config.js and config.inc.php manually, as described in the instructions f
 
 Set "chmod 777 smarty" within the project's directory and "chmod 777 templates" "chmod 777 cache" within smarty.
 
-Rename docker/Dockerfile_dev file into docker/Dockerfile and use it.
+Rename docker/Dockerfile_dev file into docker/Dockerfile and use it. Copy config.dist.js and config.inc.dist.php to the directory, where Dockerfile is, do not rename them.
 
 Use script https://github.com/meertensinstituut/OpenSKOS-browser/blob/master/docker/osbrowser-start-dev.sh
 If necessary, you will need adjust settings "-p 80:80" with the pair of outside-port:inner-container-port of your instance.
