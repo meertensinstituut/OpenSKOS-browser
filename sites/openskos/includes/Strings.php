@@ -5,7 +5,7 @@ namespace VLO\OpenSkos;
 class Strings {
 
   public static function getTitle() {
-    return 'Clarin Concept Registry';
+    return 'OpenSKOS Concept Registries';
   }
 
   public static function getRemoteBackends() {
