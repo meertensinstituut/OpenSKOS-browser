@@ -763,6 +763,35 @@ display: block !important;
 display: none !important;
 }
 
+#home_content{
+margin:28px;
+width: 80%;
+}
+
+#home_text{
+background-image: url('../images/openskos.png');
+background-repeat: no-repeat;
+background-position: right top;
+padding-right: 300px;
+}
+
+#vis_remotebackends{
+background-color:#b2cad4;
+font-size:12px;
+padding:4px 8px;
+display:inline-block;
+font-weight:bold;
+border: 1px solid #00406F;
+color:#00406f;
+}
+
+#vis_remotebackends p{
+font-weight:bold;
+font-size:13px;
+margin-top: 2px;
+margin-bottom:4px;
+}
+
 ////
 /*
 .gnode text {
