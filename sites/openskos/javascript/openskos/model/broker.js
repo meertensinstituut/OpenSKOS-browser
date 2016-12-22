@@ -305,12 +305,14 @@
           //console.log("In Broker  ajax returns data: " + JSON.stringify(retval.data));
           return retval;
         },
-        getConceptsForPage: function (response, word, page, itemsperpage) {
+        //getConceptsForPage: function (response, word, page, itemsperpage) {
+        getConceptsForPage: function (response, word) {
           var allConcepts = response["docs"];
           var numFound = response["numFound"];
-          var start = (page - 1) * itemsperpage;
-          var endNotIncl = start + itemsperpage;
-          var retConcepts = allConcepts.slice(start, endNotIncl);
+          //var start = (page - 1) * itemsperpage;
+          //var endNotIncl = start + itemsperpage;
+          //var retConcepts = allConcepts.slice(start, endNotIncl);
+          var retConcepts = allConcepts;
           var retVal = {
             concepts: retConcepts,
             terms: word,
@@ -383,13 +385,14 @@
       return {
         retrieveConcepts: function (query) {
           var apiquery = private_methods.buildQueryString(query, "");
-          //console.log(apiquery);
-          var response = private_methods.getConceptsAPI(apiquery, 0, config.maxitems, query);
-          //console.log(response.status);
+          var start = (query.page -1)*config.itemsperpage;
+          var rows = config.itemsperpage;
+          //var response = private_methods.getConceptsAPI(apiquery, 0, config.maxitems, query);
+          var response = private_methods.getConceptsAPI(apiquery, start, rows, query);
           var retVal;
           if (response.status === config.success) {
-            retVal = private_methods.getConceptsForPage(response.data["response"], query.word, query.page, config.itemsperpage);
-            //console.log("OK");
+            retVal = private_methods.getConceptsForPage(response.data["response"], query.word);
+            //retVal = private_methods.getConceptsForPage(response.data["response"], query.word, query.page, config.itemsperpage);
           } else {
             retVal = response;
           }
