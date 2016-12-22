@@ -119,6 +119,9 @@
             var prefixStr;
             //console.log(prefices);
             //console.log(matchingtype);
+            if (term.trim() === "") {
+              matchingtype = "partofword";
+            }
             if (matchingtype === "wholeword") { // search for token
               for (i = 0; i < prefices.length - 1; i++) {
                 if (prefices[i] === "") {
@@ -260,7 +263,6 @@
           }
           ;
           var params = {csurl: query.backend + '/relation', id: relList, members: 'true'};
-          console.log(params.csurl);
           if (query.sourceSchemata !== undefined) {
             if (query.sourceSchemata.length > 0) {
               var obj = {sourceSchemata: query.sourceSchemata.join(",")};

@@ -8,6 +8,20 @@ var openskos = (function ($, openskos) {
 
     var eventhandler = function ($, config) {
         var private_methods = {
+          
+            handleHomeFormSubmit: function () {
+                var searchform = $("#vis_remotebackends");
+                searchform.on("submit", function (e) {
+                    e.preventDefault();
+                    var getstring = $(this).serialize() ;
+                    /**
+                     * FINAL FORM SUBMIT
+                     */
+                    window.location.href = config.workspaceurl + "?action=tovocabularies&" + getstring;
+                });
+
+            },
+          
             handleFormSubmitOpenskos: function () {
                 var searchform = $("#openskos-complexsearch");
                 searchform.on("submit", function (e) {
@@ -18,7 +32,7 @@ var openskos = (function ($, openskos) {
                      */
                     window.location.href = config.workspaceurl + "?" + getstring;
                 });
-
+               
             },
             
             handleRelationFormSubmitOpenskos: function () {
@@ -107,6 +121,7 @@ var openskos = (function ($, openskos) {
                     $(this).submit();
                 });
                 
+                private_methods.handleHomeFormSubmit();
                 private_methods.handleFormulierelementenOpenskos();
                 private_methods.handleFormSubmitOpenskos();
                 private_methods.handleRelationFormSubmitOpenskos();
