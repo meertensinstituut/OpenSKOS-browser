@@ -74,7 +74,7 @@
   
    <div id="topsection">
     {block name="menubar"}
-      {include file="comp-menubar-openskos.tpl"} <!-- openskos-specific part, differs from nederlab -->
+      {include file="comp-menubar-openskos.tpl"} 
     {/block}
   </div>
 

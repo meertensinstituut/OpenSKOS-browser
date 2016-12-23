@@ -1,5 +1,6 @@
 <?php
 /**
+ * 
  * Project:     Smarty: the PHP compiling template engine
  * File:        Smarty.class.php
  * SVN:         $Id: Smarty.class.php 4694 2013-01-13 21:13:14Z uwe.tews@googlemail.com $
