@@ -23,7 +23,7 @@ define('OPENSKOS_SMARTY_ERROR_REPORTING', E_ALL & ~E_NOTICE);
 define('OPENSKOS_REMOTE_API','remotebackenduris'); 
 
 // defaults
-define('OPENSKOS_DEFAULT_BACKEND', 'defaultbackendnuri'); // a string, must be the same as in <..>/sites/openskos/javascript/config.js
+define('OPENSKOS_DEFAULT_BACKEND', ''); 
 define('OPENSKOS_DEFAULT_SEARCHMODE', 'or');
 define('OPENSKOS_DEFAULT_MATCHINGMODE', 'partofword');
 define('OPENSKOS_DEFAULT_SORT_FIELD', 'score');
