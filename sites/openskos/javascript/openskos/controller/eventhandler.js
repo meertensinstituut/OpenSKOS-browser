@@ -117,7 +117,7 @@ var openskos = (function ($, openskos) {
                     $(this).hide();
                 });
                 
-                $("#vis_remotebackends").click(function () {
+                $("input[name=backend]").click(function () {
                     $(this).submit();
                 });
                 
