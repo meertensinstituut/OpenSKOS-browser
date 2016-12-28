@@ -6,7 +6,7 @@ apt-get -y install php5-curl curl wget unzip
 # example of using argument 
 
 ARG REMOTEBACKENDS="http://somehost/ccr/public/api--ccr cloud,uri2-name2"
-ARG DEFAULTBACKEND=http://somehost/ccr/public/api
+ARG DEFAULTBACKEND=""
 ARG FRONTENDHOST=somehost
 ARG FRONTENDPORT=xx
 ARG FRONTENDPROTOCOL=yyy
@@ -35,7 +35,6 @@ cd /app/OpenSKOS-browser &&\
 ADD config.inc.dist.php /app/OpenSKOS-browser/sites/openskos/config/config.inc.php
 ADD config.dist.js /app/OpenSKOS-browser/sites/openskos/javascript/openskos/config.js
 RUN sed -i "s|remotebackenduris|${REMOTEBACKENDS}|g" /app/OpenSKOS-browser/sites/openskos/config/config.inc.php
-RUN sed -i "s|defaultbackendnuri|${DEFAULTBACKEND}|g" /app/OpenSKOS-browser/sites/openskos/config/config.inc.php
 RUN sed -i "s|frontendhost|${FRONTENDHOST}|g" /app/OpenSKOS-browser/sites/openskos/javascript/openskos/config.js
 RUN sed -i "s|frontendport|${FRONTENDPORT}|g" /app/OpenSKOS-browser/sites/openskos/javascript/openskos/config.js
 RUN sed -i "s|frontendprotocol|${FRONTENDPROTOCOL}|g" /app/OpenSKOS-browser/sites/openskos/javascript/openskos/config.js
