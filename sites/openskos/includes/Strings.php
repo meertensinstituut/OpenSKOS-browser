@@ -9,7 +9,6 @@ class Strings {
   }
 
   public static function getRemoteBackends() {
-    //$retVal=json_decode(OPENSKOS_REMOTE_API);
     $backends = explode(",",OPENSKOS_REMOTE_API);
     $retVal=[];
     for ($i=0; $i<count($backends); $i++){

@@ -15,187 +15,80 @@
     var broker = function ($, config) {
 
       var private_methods = {
-        getSelectedFieldsByFacets: function (selectedFieldFacets, facetFieldMap) {
-          var retval = [];
-          var i;
-          for (i = 0; i < selectedFieldFacets.length; i++) {
-            var nextArray = facetFieldMap[selectedFieldFacets[i]].split(",");
-            retval = retval.concat(nextArray);
+        buildQueryString: function (query) {
+          var terms = query.word.split(" "), i, binopStr, retval = "", matching="";
+          if (query.matchingtype==='partofword') {
+            matching="*";
           }
-
-          return retval;
-        },
-        makeWordList: function (terms) {
-          var retval = [];
-          var help = terms.split(" ");
-          var i;
-          for (i = 0; i < help.length; i++) {
-            //console.log(help[i],trim());
-            var nextTerm = help[i].trim();
-            retval.push(nextTerm);
+          if (terms.length === 1) {
+            return matching+terms[0].trim()+matching;
           }
-
-          return retval;
-        },
-        // begin of query is not empty only for a SOLR query, when API is bypassed
-        buildQueryString: function (query, beginOfQuery) {
-          var retVal;
-
-          // given space-separated string of terms, returns a list of the initial terms, which surronded by stars if query.matchingtype='partofword'
-          var terms = private_methods.makeWordList(query.word);
-          // make this list of search fields from query's selected facets
-          var facetFieldMap = openskos.config.searchfieldsmap;
-          var selectedFields = private_methods.getSelectedFieldsByFacets(query.selectedFieldFacets, facetFieldMap);
-          //for each term "terms[i]" make the string with possible pairs "feildname:terms[i]"
-          // termInFields is the list of all such strings
-          var i;
-          var termInFields = [];
-          for (i = 0; i < terms.length; i++) {
-            termInFields.push(private_methods.buildBinopQueryFieldPart(selectedFields, "or", terms[i], query.matchingtype));
-          }
-          // if the search mode is OR then the strings-element of the list termInfields must be concatenated with Or, otherwise with AND
-          var termClause = private_methods.buildBinopQueryStrWithPrefix(termInFields, query.orand, "");
-
-          // beginOfQuery is "class:Concept" with the list of admissible schemata, collections and tenants for SOLR query
-          if (termClause !== "") {
-            retVal = beginOfQuery + termClause;
-          }
-          ;
-          if (query.status !== undefined) {
-            var l = query.status.length;
-            if (l > 0) {
-              retVal = retVal + " AND (";
-              var j;
-              for (j = 0; j < l - 1; j++) {
-                retVal = retVal + 'status:' + query.status[j] + ' OR ';
-              }
-              retVal = retVal + 'status:' + query.status[l - 1] + ')';
-            }
-          }
-          return retVal;
-        },
-        buildBinopQueryStrWithPrefix: function (atoms, binop, prefix) {
-          if (atoms.length > 0) {
-            var retval = "(";
-            var binopStr;
-            if (binop === "and") {
-              binopStr = " AND ";
-            } else {
-              binopStr = " OR ";
-            }
-            ;
-            var prefixStr;
-            if (prefix === "") {
-              prefixStr = "";
-            } else {
-              prefixStr = prefix + ":";
-            }
-            ;
-            var i;
-            for (i = 0; i < atoms.length - 1; i++) {
-              var repl = atoms[i].replace("http\:", "http\\:");
-              retval = retval + prefixStr + repl + binopStr; // replace : with \:
-            }
-            ;
-            retval = retval + prefixStr + atoms[atoms.length - 1].replace("http\:", "http\\:") + ")";
-            //console.log(retval);
-            return retval;
+          if (query.orand === "and") {
+            binopStr = " AND ";
           } else {
-            return "";
+            binopStr = " OR ";
           }
-        },
-        buildBinopQueryFieldPart: function (prefices, binop, term, matchingtype) {
-          var termStr = term.replace("http\:", "http\\:");
-          if (prefices.length > 0) {
-            var retval = "(";
-            var binopStr;
-            if (binop === "and") {
-              binopStr = " AND ";
-            } else {
-              binopStr = " OR ";
-            }
-            ;
-            var i;
-            var prefixStr;
-            //console.log(prefices);
-            //console.log(matchingtype);
-            if (term.trim() === "") {
-              matchingtype = "partofword";
-            }
-            if (matchingtype === "wholeword") { // search for token
-              for (i = 0; i < prefices.length - 1; i++) {
-                if (prefices[i] === "") {
-                  prefixStr = "";
-                } else {
-                  prefixStr = "t_" + prefices[i] + ":";
-                }
-                retval = retval + prefixStr + termStr + binopStr; // replace : with \:
-                //console.log(retval);
-              }
-              if (prefices[prefices.length - 1] === "") {
-                prefixStr = "";
-              } else {
-                prefixStr = "t_" + prefices[prefices.length - 1] + ":";
-              }
-              retval = retval + prefixStr + termStr + ")";
-            } else { 
-              for (i = 0; i < prefices.length - 1; i++) {
-                var prefixStr;
-                if (prefices[i] === "") {
-                  prefixStr = "*";
-                } else {
-                  prefixStr = prefices[i] + ":*";
-                }
-                if (termStr === "") {
-                  retval = retval + prefixStr + binopStr;
-                } else {
-                  retval = retval + prefixStr + termStr + "*" + binopStr;
-                }
-              }
-              if (prefices[prefices.length - 1] === "") {
-                prefixStr = "*";
-              } else {
-                prefixStr = prefices[prefices.length - 1] + ":*";
-              }
-              if (termStr === "") {
-                retval = retval + prefixStr + ")";
-              } else {
-                retval = retval + prefixStr + termStr + "*)";
-              }
-
-            }
-            //console.log("Build for Term:");
-            //console.log(retval);
-            return retval;
-          } else {
-            return "";
+          for (i = 0; i < terms.length - 1; i++) {
+            retval += matching+terms[i].trim() + matching+ binopStr;
           }
+          retval += matching+terms[terms.length - 1].trim()+matching;
+          return retval;
         },
         getConceptsAPI: function (queryString, begin, rows, query) {
-          var sorting = query.sortingfield + " " + query.sortingorder, mainjqxhr;
+          var sorting = query.sortingfield + " " + query.sortingorder, mainjqxhr, obj_scheme, obj_coll,
+            obj_tenant, obj_set, obj_status, obj_matching, obj_label, obj_properties, properties_str;
           var params = {csurl: query.backend + '/concept', q: queryString, sorts: sorting, format: "json", start: begin, rows: rows};
           if (query.conceptScheme !== undefined) {
-            var obj = {conceptScheme: query.conceptScheme.join(" ")};
-            jQuery.extend(params, obj);
+            obj_scheme = {scheme: query.conceptScheme.join(" ")};
+            jQuery.extend(params, obj_scheme);
           }
           if (query.skosCollections !== undefined) {
-            var obj = {skosCollection: query.skosCollections.join(" ")};
-            jQuery.extend(params, obj);
+            obj_coll = {skoscollection: query.skosCollections.join(" ")};
+            jQuery.extend(params, obj_coll);
           }
           if (query.tenants !== undefined) {
-            var obj = {tenantUri: query.tenants.join(" ")};
-            jQuery.extend(params, obj);
+            obj_tenant = {tenantUri: query.tenants.join(" ")};
+            jQuery.extend(params, obj_tenant);
           }
           if (query.sets !== undefined) {
-            var obj = {sets: query.sets.join(" ")};
-            jQuery.extend(params, obj);
+            obj_set = {set: query.sets.join(" ")};
+            jQuery.extend(params, obj_set);
           }
           if (query.status !== undefined) {
-            var obj = {status: query.status.join(" ")};
-            jQuery.extend(params, obj);
+            obj_status = {status: query.status.join(" ")};
+            jQuery.extend(params, obj_status);
           }
-          //console.log(params.status);
-          //console.log(params.q);
+
+          if (query.matchingtype !== undefined) {
+            var val = false;
+            if (query.matchingtype === 'wholeword') {
+              val = true;
+            }
+            obj_matching = {wholeword: val};
+            jQuery.extend(params, obj_matching);
+          }
+
+          if (query.selectedFieldFacets !== null) {
+            if (query.selectedFieldFacets.indexOf('Labels') > -1) {
+              obj_label = {label: config.searchfieldsmap['Labels']};
+              jQuery.extend(params, obj_label);
+            }
+
+            if (query.selectedFieldFacets.indexOf('DefaultDocumentationFields') > -1) {
+              properties_str = config.searchfieldsmap['DefaultDocumentationFields'];
+              if (query.selectedFieldFacets.indexOf('Definition') > -1) {
+                properties_str += " " + config.searchfieldsmap['Definition'];
+              }
+              obj_properties = {properties: properties_str};
+              jQuery.extend(params, obj_properties);
+            } else {
+              if (query.selectedFieldFacets.indexOf('Definition') > -1) {
+                obj_properties = {properties: config.searchfieldsmap['Definition']};
+                jQuery.extend(params, obj_properties);
+              }
+            }
+          }
+
           var retval = {}, ajaxoptions = {
             method: 'GET',
             url: config.proxyurl,
@@ -214,14 +107,13 @@
               $("#error-message").hide();
             },
             error: function (jqxhr, textStatus, errorThrown) {
-             $("#loading").hide();
-             $("#concepts-header").hide();
+              $("#loading").hide();
+              $("#concepts-header").hide();
             }
           };
-          
-            mainjqxhr = $.ajax(ajaxoptions);
-              
-            return retval;
+
+          mainjqxhr = $.ajax(ajaxoptions);
+          return retval;
         },
         getConceptDetails: function (params) {
 
@@ -386,10 +278,9 @@
 
       return {
         retrieveConcepts: function (query) {
-          var apiquery = private_methods.buildQueryString(query, "");
-          var start = (query.page -1)*config.itemsperpage;
+          var apiquery = private_methods.buildQueryString(query);
+          var start = (query.page - 1) * config.itemsperpage;
           var rows = config.itemsperpage;
-          //var response = private_methods.getConceptsAPI(apiquery, 0, config.maxitems, query);
           var response = private_methods.getConceptsAPI(apiquery, start, rows, query);
           var retVal;
           if (response.status === config.success) {
