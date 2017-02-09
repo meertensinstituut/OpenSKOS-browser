@@ -62,10 +62,8 @@
           terms = formquery["terms"];
           hits = terms.split(" ");
           var result = private_methods.doSearch(formquery, page);
-          //console.log("Controller has recieved the answer:");
-          //console.log(JSON.stringify(result));
           if (result.status === config.success) {
-            openskos.view.displayConcepts(result, hits, terms);
+            openskos.view.displayConcepts(result, hits, terms, formquery.fields, formquery.matchingtype);
             $('.pagination').data("executeOnSelect", false);
             private_methods.addPagination(result.numFound);
             private_methods.handleHashChange();

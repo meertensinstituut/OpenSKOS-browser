@@ -16,9 +16,9 @@
    [[else]]
    <tr class="concept-row-openskos">
    [[/if]]
-             <td> <a  href="{$siteroot}?action=conceptdetails&backend={$selected_remote_backend}&uuid=[[>uuid]]&terms=[[>terms]]">[[>prefLabel]]</a> </td>
-             <td>  [[>definition]]</td>
-             <td>  [[>status]]</td>
+             <td class="prefLabel"> <a  href="{$siteroot}?action=conceptdetails&backend={$selected_remote_backend}&uuid=[[>uuid]]&terms=[[>terms]]">[[>prefLabel]]</a> </td>
+             <td class="definition">  [[>definition]]</td>
+             <td>[[>status]]</td>
   </tr>
   <tr>
   <td class="row-padding-openskos"></td><td class="row-padding-openskos"><td class="row-padding-openskos"></td>

@@ -8,6 +8,12 @@
     openskos.d3 = Object.create(d3);
     var view = function ($, config) {
       var private_methods = {
+        filteredHighlight: function (elem, word, filter) {
+          var matches = elem.text().match(filter);
+          if (matches !== null) {
+            elem.html(elem.text().replace(filter, '<span class=highlight>' + matches[0] + '</span>'));
+          }
+        },
         mapConceptData: function (value, hits, terms) {
           var keys = Object.keys(value);
           //console.log(Object.keys(value));
@@ -139,20 +145,19 @@
             }
           }
         },
-        displayConcepts: function (result, hits, terms) {
-          //console.log(hits[0]);
-          // announcing # found concepts
-          var announce = $("#foundItems");
-          var htmlAnnounce = "Found " + result.numFound + " concepts";
+        displayConcepts: function (result, hits, terms, searchfileds, matchingtype) {
+          var announce = $("#foundItems"),
+            htmlAnnounce = "Found " + result.numFound + " concepts",
+            conceptresultlist = $("#table-concepts"),
+            template = $.templates("#concept-template"),
+            htmlOutput = '',
+            i = 1,
+            concepts = result.concepts,
+            filter = "";
           announce.html(htmlAnnounce);
-          var conceptresultlist = $("#table-concepts"); //picks up the body of the table
-          var htmlOutput = '';
-          // listing concepts
-          var i = 1;
-          var concepts = result.concepts;
+
           $.each(concepts,
             function (key, value) {
-              var template = $.templates("#concept-template");
               var templateinput = private_methods.mapConceptData(value, hits, terms);
               if (i % 2 === 0) {
                 templateinput[0].even = true;
@@ -163,7 +168,30 @@
 
           conceptresultlist.html(htmlOutput);
           $.each(hits, function (key, value) {
-            conceptresultlist.highlight(value);
+            if (matchingtype === 'wholeword') {
+              filter = new RegExp('\\b' + value + '\\b', 'gi');
+              if (searchfileds.indexOf('Labels') > -1) {
+                $('.prefLabel').each(function (index) {
+                  private_methods.filteredHighlight($(this), value, filter);
+                });
+              }
+              if (searchfileds.indexOf('Definition') > -1) {
+                $('.definition').each(function (index) {
+                  private_methods.filteredHighlight($(this), value, filter);
+                });
+              }
+            } else {
+              if (searchfileds.indexOf('Labels') > -1) {
+                $('.prefLabel').each(function (index) {
+                  $(this).highlight(value);
+                });
+              }
+              if (searchfileds.indexOf('Definition') > -1) {
+                $('.definition').each(function (index) {
+                  $(this).highlight(value);
+                });
+              }
+            }
           });
         },
         displayConceptDetails: function (conceptdata, hits) {
