@@ -88,7 +88,7 @@
               }
             }
           }
-          console.log(params);
+          
           var retval = {}, ajaxoptions = {
             method: 'GET',
             url: config.proxyurl,
