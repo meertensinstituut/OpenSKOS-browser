@@ -43,7 +43,7 @@
             jQuery.extend(params, obj_scheme);
           }
           if (query.skosCollections !== undefined) {
-            obj_coll = {skoscollection: query.skosCollections.join(" ")};
+            obj_coll = {skosCollection: query.skosCollections.join(" ")};
             jQuery.extend(params, obj_coll);
           }
           if (query.tenants !== undefined) {
