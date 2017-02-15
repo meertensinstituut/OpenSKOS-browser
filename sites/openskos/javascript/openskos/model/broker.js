@@ -89,6 +89,8 @@
             }
           }
           
+          console.log(params);
+          
           var retval = {}, ajaxoptions = {
             method: 'GET',
             url: config.proxyurl,
@@ -113,6 +115,7 @@
           };
 
           mainjqxhr = $.ajax(ajaxoptions);
+          console.log(retval);
           return retval;
         },
         getConceptDetails: function (params) {
