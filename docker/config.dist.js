@@ -11,9 +11,9 @@ var openskos = (function (openskos) {
     proxypath: "sites/openskos/html/proxy.php",
     success: "success",
     searchfieldsmap:  {
-      "Labels" : "prefLabel,altLabel,hiddenLabel", 
+      "Labels" : "prefLabel altLabel hiddenLabel", 
       "Definition" : "definition", 
-      "DefaultDocumentationFields" : "changeNote,definition,editorialNote,example,historyNote,note,scopeNote"
+      "DefaultDocumentationFields" : "changeNote definition editorialNote example historyNote note scopeNote"
   },
     highlightablefields: ['prefLabel', 'altLabel', 'hiddenLabel', 'definition', 'notation', 'note', 'scopeNote', 'changeNote', 'editorialNote', 'historyNote', 'example'],
     itemsperpage: 10,
