@@ -7,6 +7,8 @@
 
   {* we define the meta keywords block *}
   <meta name="keywords" content="{block name="meta"}{/block}">
+  
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
   {* we define our title block *}
   <title>{$title}</title>
