@@ -51,7 +51,7 @@
             jQuery.extend(params, obj_tenant);
           }
           if (query.sets !== undefined) {
-            obj_set = {set: query.sets.join(" ")};
+            obj_set = {setUri: query.sets.join(" ")};
             jQuery.extend(params, obj_set);
           }
           if (query.status !== undefined) {
@@ -89,7 +89,6 @@
             }
           }
           
-          console.log(params);
           
           var retval = {}, ajaxoptions = {
             method: 'GET',
@@ -115,7 +114,7 @@
           };
 
           mainjqxhr = $.ajax(ajaxoptions);
-          console.log(retval);
+          
           return retval;
         },
         getConceptDetails: function (params) {
@@ -157,7 +156,7 @@
             relList = query.relation.join(",");
           }
           ;
-          var params = {csurl: query.backend + '/relation', id: relList, members: 'true'};
+          var params = {csurl: query.backend + '/relationtype', id: relList, members: 'true'};
           if (query.sourceSchemata !== undefined) {
             if (query.sourceSchemata.length > 0) {
               var obj = {sourceSchemata: query.sourceSchemata.join(",")};
