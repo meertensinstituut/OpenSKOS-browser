@@ -24,7 +24,7 @@
     <div id="searchObjectSmall-openskos">
       <div class="form-col2">
       <input type="submit" class="extSearchSubmit" value="Search"/> 
-      <input type="button" class="extSearchSubmit" onclick="location.href='/NederlabOpenskosFrontend/?action=torelations&backend={$selected_remote_backend}';" value="Reset all"/>     
+      <input type="button" class="extSearchSubmit" onclick="location.href='/OpenSKOS-browser/?action=torelations&backend={$selected_remote_backend}';" value="Reset all"/>     
     </div>
     </div>
     </div>
