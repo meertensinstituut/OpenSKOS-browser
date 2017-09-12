@@ -47,7 +47,7 @@
             jQuery.extend(params, obj_coll);
           }
           if (query.tenants !== undefined) {
-            obj_tenant = {tenantUri: query.tenants.join(" ")};
+            obj_tenant = {tenant: query.tenants.join(" ")};
             jQuery.extend(params, obj_tenant);
           }
           if (query.sets !== undefined) {
@@ -155,7 +155,6 @@
           } else {
             relList = query.relation.join(",");
           }
-          ;
           var params = {csurl: query.backend + '/relationtype', id: relList, members: 'true'};
           if (query.sourceSchemata !== undefined) {
             if (query.sourceSchemata.length > 0) {

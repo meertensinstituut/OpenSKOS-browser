@@ -176,7 +176,7 @@
                 var result = private_methods.doSearch(formquery, page);
                 //console.log(JSON.stringify(result));
                 if (result.status === config.success) {
-                  openskos.view.displayConcepts(result, hits, terms);
+                  openskos.view.displayConcepts(result, hits, terms, formquery.fields, formquery.matchingtype);
                   window.location.hash = "#page" + page;
                   // Return code indicates if the link of the clicked format element should be followed (otherwise only the click-event is used)
                   return false;

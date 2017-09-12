@@ -145,7 +145,7 @@
             }
           }
         },
-        displayConcepts: function (result, hits, terms, searchfileds, matchingtype) {
+        displayConcepts: function (result, hits, terms, searchfields, matchingtype) {
           var announce = $("#foundItems"),
             htmlAnnounce = "Found " + result.numFound + " concepts",
             conceptresultlist = $("#table-concepts"),
@@ -170,23 +170,23 @@
           $.each(hits, function (key, value) {
             if (matchingtype === 'wholeword') {
               filter = new RegExp('\\b' + value + '\\b', 'gi');
-              if (searchfileds.indexOf('Labels') > -1) {
+              if (searchfields.indexOf('Labels') > -1) {
                 $('.prefLabel').each(function (index) {
                   private_methods.filteredHighlight($(this), value, filter);
                 });
               }
-              if (searchfileds.indexOf('Definition') > -1) {
+              if (searchfields.indexOf('Definition') > -1) {
                 $('.definition').each(function (index) {
                   private_methods.filteredHighlight($(this), value, filter);
                 });
               }
             } else {
-              if (searchfileds.indexOf('Labels') > -1) {
+              if (searchfields.indexOf('Labels') > -1) {
                 $('.prefLabel').each(function (index) {
                   $(this).highlight(value);
                 });
               }
-              if (searchfileds.indexOf('Definition') > -1) {
+              if (searchfields.indexOf('Definition') > -1) {
                 $('.definition').each(function (index) {
                   $(this).highlight(value);
                 });
