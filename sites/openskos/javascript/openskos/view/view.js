@@ -60,10 +60,16 @@
         },
         // used for graph mode 
         mapRelationDataToLinks: function (rels) {
+          if (rels.lenght < 1) {
+            return {nodes: [], links: []};
+          }
           var i;
           var links = [];
-          var nodes_helper = [];
+          var uuid_buffer = [];
           var nodes = [];
+          var current_source, index_s;
+          var current_target, index_t;
+          var current_link;
           for (i = 0; i < rels.length; i++) {
             var s = rels[i].s;
             var p = rels[i].p;
@@ -81,23 +87,33 @@
 
             var pIndex = openskos.allrelations.indexOf(p);
             if (pIndex < 0) {
-              throw "The relation " + p + " in not in the list of admissible relations for this javascript";
+              throw "The relation " + p + " in not in the list of admissible relations for this browser";
             }
 
-            var link = {source: s.uuid + ":" + indexSSchema, target: o.uuid + ":" + indexOSchema, typeIndex: pIndex, sourcePrefLabel: s.prefLabel, targetPrefLabel: o.prefLabel, sourceSchema: indexSSchema, targetSchema: indexOSchema, sourceUUID: s.uuid, targetUUID: o.uuid};
-            links.push(link);
-            if (nodes_helper.indexOf(link.source) === -1) {
-              nodes_helper.push(link.source);
-              nodes.push({name: link.source, uuid: link.sourceUUID, color: link.sourceSchema, label: link.sourcePrefLabel});
+
+            index_s = uuid_buffer.indexOf(s.uuid);
+            if (index_s === -1) {
+              uuid_buffer.push(s.uuid);
+              current_source = {prefLabel: s.prefLabel, uuid: s.uuid, color: indexSSchema};
+              nodes.push(current_source);
+            } else {
+              current_source = nodes[index_s];
             }
-            if (nodes_helper.indexOf(link.target) === -1) {
-              nodes_helper.push(link.target);
-              nodes.push({name: link.target, uuid: link.targetUUID, color: link.targetSchema, label: link.targetPrefLabel});
+
+            index_t = uuid_buffer.indexOf(o.uuid);
+            if (index_t === -1) {
+              uuid_buffer.push(o.uuid);
+              current_target = {prefLabel: o.prefLabel, uuid: o.uuid, color: indexOSchema};
+              nodes.push(current_target);
+            } else {
+              current_target = nodes[index_t];
             }
+            current_link = {source: current_source, target: current_target, typeIndex: pIndex};
+            links.push(current_link);
           }
-          ;
-          var equivalences = private_methods.findEquivalences(nodes);
-          return links.concat(equivalences);
+          var r = Math.min(2048 / nodes.length, 16);
+
+          return {nodes: nodes, links: links, r: r};
         },
         findEquivalences: function (nodes) {
           var retVal = [];
@@ -247,12 +263,137 @@
           relationslist.html(htmlOutput);
         },
         displayRelationsAsGraph: function (rels) {
+
+          var announce = $("#foundItems");
+          var htmlAnnounce = "Found " + rels.length + " relations";
+          announce.html(htmlAnnounce);
+          var graphArea = $("#relation-graph");
+          var width = graphArea.width(), height = graphArea.height();
+
+          var margin = {top: 0, left: 0, bottom: 0, right: 0}
+          var svg = openskos.d3.select("#relation-graph").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+          var data = private_methods.mapRelationDataToLinks(rels);
+          console.log(data.nodes.length);
+
+          var simulation = openskos.d3.forceSimulation()
+            .force("link", openskos.d3.forceLink().id(function (d) {
+              return d.index;
+            }))
+            .force("collide", openskos.d3.forceCollide(function (d) {
+              return data.r*2+8;
+            }).iterations(16))
+            .force("charge", openskos.d3.forceManyBody())
+            .force("center", openskos.d3.forceCenter(width / 2, height / 2))
+            .force("y", openskos.d3.forceY(0))
+            .force("x", openskos.d3.forceX(0));
+
+          var path = svg.append("g")
+            .selectAll("path")
+            .data(data.links)
+            .enter().append("path")
+            .attr("fill", "transparent")
+            .attr("stroke", function (d) {
+              if (d.typeIndex === -1) {
+                return '#000000';
+              }
+              return openskos.alldarkcolors[d.typeIndex];
+            });
+
+          var node = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(data.nodes)
+            .enter().append("circle")
+            .style("fill", function (d) {
+              return openskos.alllightcolors[d.color];
+            })
+            .attr("r", data.r)
+            .call(openskos.d3.drag()
+              .on("start", dragstarted)
+              .on("drag", dragged)
+              .on("end", dragended));
+
+          var text = svg.append("g").selectAll("text")
+            .data(data.nodes)
+            .enter().append("text")
+            .attr("x", data.r)
+            .attr("y", ".31em")
+            .text(function (d) {
+              return d.prefLabel;
+            });
+
+          function linkArc(d) {
+            var dx = d.target.x - d.source.x,
+              dy = d.target.y - d.source.y;
+            var ort_x=100, ort_y = (-dx * ort_x / dy);//(dx * ort_x + dy * ort_y=0
+            var norm = Math.sqrt(ort_x*ort_x + ort_y * ort_y);
+            var norm_x = ort_x * 32 / norm, norm_y = ort_y * 20 / norm;
+            var middle_x = (d.target.x +d.source.x)/2,
+                middle_y = (d.target.y +d.source.y)/2;
+            var control_x = middle_x+norm_x, control_y=middle_y+norm_y;
+             if (dy <0) {
+                control_x = middle_x - norm_x, control_y=middle_y-norm_y;
+             }
+            return "M" + d.source.x + " " + d.source.y + " Q " + control_x + " " + control_y + " " + d.target.x + " " + d.target.y;
+          }
+
+          
+
+          function transform(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+          }
+
+
+
+          var ticked = function () {
+            path.attr("d", linkArc);
+            node.attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
+            text.attr("transform", transform);
+          };
+
+
+          simulation
+            .nodes(data.nodes)
+            .on("tick", ticked);
+
+          simulation.force("link")
+            .links(data.links);
+
+
+
+          function dragstarted(d) {
+            if (!openskos.d3.event.active)
+              simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          }
+
+          function dragged(d) {
+            d.fx = openskos.d3.event.x;
+            d.fy = openskos.d3.event.y;
+          }
+
+          function dragended(d) {
+            if (!openskos.d3.event.active)
+              simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          }
+
+        },
+        displayRelationsAsGraph_old: function (rels) {
           //console.log(openskos.allrelations);
           var announce = $("#foundItems");
           var htmlAnnounce = "Found " + rels.length + " relations";
           announce.html(htmlAnnounce);
           var graphArea = $("#relation-graph");
-          var width = graphArea.width(), height = width;
+          var width = graphArea.width(), height = graphArea.height();
+
 
           var links = private_methods.mapRelationDataToLinks(rels);
           var nodes = [];
@@ -264,14 +405,24 @@
             link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, prefLabel: link.targetPrefLabel, schema: link.targetSchema});
           });
 
-          var force = openskos.d3.layout.force()
+          var force = openskos.d3.forceSimulation()
+            .force("link", openskos.d3.forceLink().id(function (d) {
+              return d.index;
+            }))
+            .force("collide", openskos.d3.forceCollide(12))
+            .force("center", openskos.d3.forceCenter(width / 2, height / 2))
+            .force("charge", openskos.d3.forceManyBody())
+            .force("y", openskos.d3.forceY(0))
+            .force("x", openskos.d3.forceX(0))
             .nodes(openskos.d3.values(nodes))
-            .links(links)
-            .size([width, height])
-            .linkDistance(60)
-            .charge(-300)
             .on("tick", tick)
-            .start();
+            .force("link").links(links);
+          /*.links(links)
+           .size([width, height])
+           .linkDistance(60)
+           .charge(-300)
+           .on("tick", tick)
+           .start();*/
 
           var svg = openskos.d3.select("#relation-graph").append("svg")
             .attr("width", width)

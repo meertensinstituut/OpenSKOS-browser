@@ -34,7 +34,8 @@
   <script src="{$commonjavascripthome}extlibs/jquery.cookie.js"></script>
   <script src="{$commonjavascripthome}extlibs/multiple-select/jquery.multiple.select.js"></script>
   <script src="{$commonjavascripthome}extlibs/jquery.highlight-4.js"></script>
-  <script src="{$commonjavascripthome}extlibs/d3.v3.min.js"></script>
+  <script src="{$commonjavascripthome}extlibs/d3.v4.min.js"></script>
+  <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
   <script src="{$commonjavascripthome}extlibs/fisheye.js"></script>
   
   <script src="{$commonjavascripthome}utilities.js"></script>
@@ -89,10 +90,10 @@
     </noscript>
   </div>
  
+    
  {block name="menuAndTitleBar"}{/block} 
  {block name="extendedSearchBar"}{/block}
  {block name="content"}generic content{/block}
-  
   <!-- footer section -->
   <footer><br>&nbsp;<br>Powered by: <img src="{$openskoshome}images/logo_footer.png"></footer>
 </div>

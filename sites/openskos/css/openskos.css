@@ -807,6 +807,10 @@ display:none;
 }
 
 
+#relation-graph{
+    width: 840px;
+    height: 840px;
+}
 
 ////
 /*
