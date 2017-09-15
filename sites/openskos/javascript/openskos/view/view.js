@@ -277,21 +277,33 @@
             .attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
           var data = private_methods.mapRelationDataToLinks(rels);
-          console.log(data.nodes.length);
 
           var simulation = openskos.d3.forceSimulation()
             .force("link", openskos.d3.forceLink().id(function (d) {
               return d.index;
             }))
             .force("collide", openskos.d3.forceCollide(function (d) {
-              return data.r*2+8;
+              return data.r * 2 + 8;
             }).iterations(16))
             .force("charge", openskos.d3.forceManyBody())
             .force("center", openskos.d3.forceCenter(width / 2, height / 2))
             .force("y", openskos.d3.forceY(0))
             .force("x", openskos.d3.forceX(0));
 
-          var path = svg.append("g")
+          svg.append("defs").selectAll("marker")
+            .data(openskos.allrelations)
+            .enter().append("marker")
+            .attr("id", "Arrow")
+            .attr("refX", data.r+9)
+            .attr("refY", 2)
+            .attr("markerWidth", 64)
+            .attr("markerHeight", 64)
+            .attr("orient", "auto")
+            .append("path")
+            .attr("d", "M0,0L0,6L9,3")
+            .attr("transform","rotate(-10 9 1)");
+
+          var rel = svg.append("g")
             .selectAll("path")
             .data(data.links)
             .enter().append("path")
@@ -301,10 +313,16 @@
                 return '#000000';
               }
               return openskos.alldarkcolors[d.typeIndex];
+            })
+            .attr("marker-end", function (d) {
+              if (d.typeIndex !== -1) {
+                return "url(#Arrow)";
+              } else {
+                return "url(#Empty)";
+              }
             });
 
           var node = svg.append("g")
-            .attr("class", "nodes")
             .selectAll("circle")
             .data(data.nodes)
             .enter().append("circle")
@@ -317,31 +335,40 @@
               .on("drag", dragged)
               .on("end", dragended));
 
-          var text = svg.append("g").selectAll("text")
+
+          var text = svg.append("g")
+            .selectAll("text")
             .data(data.nodes)
             .enter().append("text")
-            .attr("x", data.r)
-            .attr("y", ".31em")
+            .attr("x", function (d) {
+              return d.x;
+            })
+            .attr("y", function (d) {
+              return d.y;
+            })
             .text(function (d) {
               return d.prefLabel;
-            });
+            })
+            .style("font-size", function (d) {
+                 return Math.max(data.r, 10) + "px";
+              });
 
           function linkArc(d) {
             var dx = d.target.x - d.source.x,
               dy = d.target.y - d.source.y;
-            var ort_x=100, ort_y = (-dx * ort_x / dy);//(dx * ort_x + dy * ort_y=0
-            var norm = Math.sqrt(ort_x*ort_x + ort_y * ort_y);
+            var ort_x = 100, ort_y = (-dx * ort_x / dy);//(dx * ort_x + dy * ort_y=0
+            var norm = Math.sqrt(ort_x * ort_x + ort_y * ort_y);
             var norm_x = ort_x * 32 / norm, norm_y = ort_y * 20 / norm;
-            var middle_x = (d.target.x +d.source.x)/2,
-                middle_y = (d.target.y +d.source.y)/2;
-            var control_x = middle_x+norm_x, control_y=middle_y+norm_y;
-             if (dy <0) {
-                control_x = middle_x - norm_x, control_y=middle_y-norm_y;
-             }
+            var middle_x = (d.target.x + d.source.x) / 2,
+              middle_y = (d.target.y + d.source.y) / 2;
+            var control_x = middle_x + norm_x, control_y = middle_y + norm_y;
+            if (dy < 0) {
+              control_x = middle_x - norm_x, control_y = middle_y - norm_y;
+            }
             return "M" + d.source.x + " " + d.source.y + " Q " + control_x + " " + control_y + " " + d.target.x + " " + d.target.y;
           }
 
-          
+
 
           function transform(d) {
             return "translate(" + d.x + "," + d.y + ")";
@@ -350,9 +377,13 @@
 
 
           var ticked = function () {
-            path.attr("d", linkArc);
-            node.attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
+            rel.attr("d", linkArc);
+            node.attr("cx", function (d) {
+              return d.x;
+            })
+              .attr("cy", function (d) {
+                return d.y;
+              });
             text.attr("transform", transform);
           };
 
@@ -385,7 +416,112 @@
             d.fy = null;
           }
 
-        },
+          var fisheye = fisheye().radius(data.r);
+
+          node.on("mousemove", fisheyefocus);
+          function fisheyefocus() {
+            fisheye.center(openskos.d3.mouse(this));
+            for (var key in data.nodes) {
+              data.nodes[key].fisheye = fisheye(data.nodes[key]);
+            }
+            openskos.d3.selectAll("circle")
+              .attr("cx", function (d) {
+                return d.fisheye.x;
+              })
+              .attr("cy", function (d) {
+                return d.fisheye.y;
+              })
+              .attr("r", function (d) {
+                return d.fisheye.z * data.r;
+              });
+
+            openskos.d3.selectAll("text")
+              .attr("dx", function (d) {
+                return d.fisheye.x - d.x;
+              })
+              .attr("dy", function (d) {
+                return (d.fisheye.y - d.y) * d.fisheye.z * 2;
+              })
+              .style("font-size", function (d) {
+                if (d.fisheye.z > 1) {
+                  return "20px";
+                } else {
+                  return Math.max(data.r, 10) + "px";
+                }
+              });
+
+            /*openskos.d3.selectAll("path")
+              .attr("d", function (d) {
+                if (d.source === undefined) {
+                  return d;
+                }
+                var sx = d.source.fisheye.x;
+                var sy = d.source.fisheye.y;
+                var tx = d.target.fisheye.x;
+                var ty = d.target.fisheye.y;
+                var source = {x: sx, y: sy};
+                var target = {x: tx, y: ty};
+                var object = {source: source, target: target};
+                return linkArc(object);
+            });*/
+            
+          }
+          function fisheye() {
+            var radius = 200,
+              power = 2,
+              k0,
+              k1,
+              center = [0, 0];
+
+            function fisheye(d) {
+              var dx = d.x - center[0],
+                dy = d.y - center[1],
+                dd = Math.sqrt(dx * dx + dy * dy);
+              if (dd >= radius)
+                return {x: d.x, y: d.y, z: 1};
+              var k = k0 * (1 - Math.exp(-dd * k1)) / dd * .75 + .25;
+              var z = 2;
+              if (data.r < 8) {
+                z = 4;
+              }
+              return {x: center[0] + dx * k, y: center[1] + dy * k, z: z};
+            }
+
+            function rescale() {
+              k0 = Math.exp(power);
+              k0 = k0 / (k0 - 1) * radius;
+              k1 = power / radius;
+              return fisheye;
+            }
+
+            fisheye.radius = function (_) {
+              if (!arguments.length)
+                return radius;
+              radius = +_;
+              return rescale();
+            };
+
+            fisheye.power = function (_) {
+              if (!arguments.length)
+                return power;
+              power = +_;
+              return rescale();
+            };
+
+            fisheye.center = function (_) {
+              if (!arguments.length)
+                return center;
+              center = _;
+              return fisheye;
+            };
+
+            return rescale();
+          }
+          ;
+
+
+        }
+        ,
         displayRelationsAsGraph_old: function (rels) {
           //console.log(openskos.allrelations);
           var announce = $("#foundItems");
@@ -521,8 +657,6 @@
             for (var key in nodes) {
               nodes[key].fisheye = fisheye(nodes[key]);
             }
-            ;
-
             openskos.d3.selectAll("circle")
               .attr("cx", function (d) {
                 return d.fisheye.x - d.x;
@@ -531,7 +665,7 @@
                 return d.fisheye.y - d.y;
               })
               .attr("r", function (d) {
-                return d.fisheye.z * 10;
+                return d.fisheye.z * 100;
               });
 
             openskos.d3.selectAll("text")
