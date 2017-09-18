@@ -290,18 +290,23 @@
             .force("y", openskos.d3.forceY(0))
             .force("x", openskos.d3.forceX(0));
 
+          var refy = 1;
+          if (data.r < 16) {
+            refy = 2;
+          }
+
           svg.append("defs").selectAll("marker")
             .data(openskos.allrelations)
             .enter().append("marker")
             .attr("id", "Arrow")
-            .attr("refX", data.r+9)
-            .attr("refY", 2)
-            .attr("markerWidth", 64)
-            .attr("markerHeight", 64)
+            .attr("refX", data.r + 9)
+            .attr("refY", refy)
+            .attr("markerWidth", 16)
+            .attr("markerHeight", 16)
             .attr("orient", "auto")
             .append("path")
             .attr("d", "M0,0L0,6L9,3")
-            .attr("transform","rotate(-10 9 1)");
+            .attr("transform", "rotate(-10 9 1)");
 
           var rel = svg.append("g")
             .selectAll("path")
@@ -350,8 +355,8 @@
               return d.prefLabel;
             })
             .style("font-size", function (d) {
-                 return Math.max(data.r, 10) + "px";
-              });
+              return Math.max(data.r, 10) + "px";
+            });
 
           function linkArc(d) {
             var dx = d.target.x - d.source.x,
@@ -416,8 +421,23 @@
             d.fy = null;
           }
 
-          var fisheye = fisheye().radius(data.r);
 
+          svg.append("rect")
+            .attr("fill", "none")
+            .attr("pointer-events", "all")
+            .attr("width", width)
+            .attr("height", height)
+            .call(openskos.d3.zoom()
+              .scaleExtent([1, 8])
+              .on("zoom", zoom));
+
+          function zoom() {
+            node.attr("transform", openskos.d3.event.transform);
+            rel.attr("transform", openskos.d3.event.transform);
+            text.attr("transform", transform);
+          }
+
+          var fisheye = fisheye().radius(data.r);
           node.on("mousemove", fisheyefocus);
           function fisheyefocus() {
             fisheye.center(openskos.d3.mouse(this));
@@ -451,20 +471,20 @@
               });
 
             /*openskos.d3.selectAll("path")
-              .attr("d", function (d) {
-                if (d.source === undefined) {
-                  return d;
-                }
-                var sx = d.source.fisheye.x;
-                var sy = d.source.fisheye.y;
-                var tx = d.target.fisheye.x;
-                var ty = d.target.fisheye.y;
-                var source = {x: sx, y: sy};
-                var target = {x: tx, y: ty};
-                var object = {source: source, target: target};
-                return linkArc(object);
-            });*/
-            
+             .attr("d", function (d) {
+             if (d.source === undefined) {
+             return d;
+             }
+             var sx = d.source.fisheye.x;
+             var sy = d.source.fisheye.y;
+             var tx = d.target.fisheye.x;
+             var ty = d.target.fisheye.y;
+             var source = {x: sx, y: sy};
+             var target = {x: tx, y: ty};
+             var object = {source: source, target: target};
+             return linkArc(object);
+             });*/
+
           }
           function fisheye() {
             var radius = 200,
