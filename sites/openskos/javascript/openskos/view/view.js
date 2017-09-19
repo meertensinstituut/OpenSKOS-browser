@@ -270,13 +270,19 @@
           var graphArea = $("#relation-graph");
           var width = graphArea.width(), height = graphArea.height();
 
+          var zoom = openskos.d3.zoom()
+            .scaleExtent([1, 8])
+            .on("zoom", zoomed);
+
           var margin = {top: 0, left: 0, bottom: 0, right: 0}
           var svg = openskos.d3.select("#relation-graph").append("svg")
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate(" + [margin.left, margin.top] + ")");
+            .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+            .call(zoom);
 
           var data = private_methods.mapRelationDataToLinks(rels);
+
 
           var simulation = openskos.d3.forceSimulation()
             .force("link", openskos.d3.forceLink().id(function (d) {
@@ -308,6 +314,8 @@
             .attr("d", "M0,0L0,6L9,3")
             .attr("transform", "rotate(-10 9 1)");
 
+
+
           var rel = svg.append("g")
             .selectAll("path")
             .data(data.links)
@@ -326,25 +334,28 @@
                 return "url(#Empty)";
               }
             });
-
-          var node = svg.append("g")
-            .selectAll("circle")
+            
+          var labelledNode =  svg.selectAll("g.labelled-node")
             .data(data.nodes)
-            .enter().append("circle")
-            .style("fill", function (d) {
-              return openskos.alllightcolors[d.color];
-            })
-            .attr("r", data.r)
+            .enter()
+            .append("g")
+            .attr("class", "labelled-node")
+            .attr("transform", transform)
             .call(openskos.d3.drag()
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
+            
+
+          var node = labelledNode.append("circle")
+            .style("fill", function (d) {
+              return openskos.alllightcolors[d.color];
+            })
+            .attr("r", data.r)
+            
 
 
-          var text = svg.append("g")
-            .selectAll("text")
-            .data(data.nodes)
-            .enter().append("text")
+          var text = labelledNode.append("text")
             .attr("x", function (d) {
               return d.x;
             })
@@ -377,6 +388,19 @@
 
           function transform(d) {
             return "translate(" + d.x + "," + d.y + ")";
+          }
+          
+          function zoomed() {
+            
+            var trans = openskos.d3.event.transform;
+            labelledNode.attr("transform", trans);
+            rel.attr("transform", trans);
+            /*text.style("font-size", function (d) {
+              return Math.max(trans.k * data.r, 10) + "px";
+            });
+            text.attr("transform", function (d) {
+                return "translate(" + (d.x+ trans.x) + "," + (d.y + trans.y) + ")"
+            });*/
           }
 
 
@@ -422,23 +446,10 @@
           }
 
 
-          svg.append("rect")
-            .attr("fill", "none")
-            .attr("pointer-events", "all")
-            .attr("width", width)
-            .attr("height", height)
-            .call(openskos.d3.zoom()
-              .scaleExtent([1, 8])
-              .on("zoom", zoom));
 
-          function zoom() {
-            node.attr("transform", openskos.d3.event.transform);
-            rel.attr("transform", openskos.d3.event.transform);
-            text.attr("transform", transform);
-          }
 
-          var fisheye = fisheye().radius(data.r);
-          node.on("mousemove", fisheyefocus);
+          //var fisheye = fisheye().radius(data.r);
+          //node.on("mousemove", fisheyefocus);
           function fisheyefocus() {
             fisheye.center(openskos.d3.mouse(this));
             for (var key in data.nodes) {
